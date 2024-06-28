@@ -15,4 +15,8 @@ class Alternatif extends Model
     public function periode() {
         return $this->belongsTo(Periode::class);
     }
+
+    public function alternatifKriteria() {
+        return $this->hasMany(AlternatifKriteria::class);
+    }
 }

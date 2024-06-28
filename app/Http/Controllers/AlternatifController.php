@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AlternatifKriteriaRequest;
 use App\Http\Requests\AlternatifRequest;
 use App\Models\Alternatif;
+use App\Models\AlternatifKriteria;
+use App\Models\Kriteria;
 use App\Models\Periode;
 use Illuminate\Http\Request;
 
@@ -82,4 +85,40 @@ class AlternatifController extends Controller
         }
         return redirect()->back()->withErrors('Data gagal dihapus');
     }
+
+
+    public function kriteria(Alternatif $alternatif) {
+        //$alternatifId = $alternatif->id;
+
+        $kriteria = Kriteria::leftJoin('alternatif_kriteria', function($join) use ($alternatif) {
+                $join->on('kriteria.id', '=', 'alternatif_kriteria.kriteria_id')
+                    ->where('alternatif_kriteria.alternatif_id', '=', $alternatif->id);
+            })
+            ->select('kriteria.id as kriteria_id', 'kriteria.nama as kriteria_nama', 'alternatif_kriteria.nilai as nilai')
+            ->get();
+
+        return view('admin.alternatif.kriteria', compact('kriteria'));
+    }
+
+
+    public function kriteria_store(AlternatifKriteriaRequest $request) {
+        $alternatifId = $request->input('alternatif_id');
+        $kriteriaData = $request->input('kriteria_id');
+
+        $alternatifKriteria = null;
+
+        foreach($kriteriaData as $kriteriaId => $nilai) {
+            $alternatifKriteria = AlternatifKriteria::updateOrCreate([
+                    'alternatif_id' => $alternatifId,
+                    'kriteria_id' => $kriteriaId,
+            ],
+            ['nilai' => $nilai]);
+        }
+
+        if($alternatifKriteria != null) {
+            return redirect()->route('alternatif.index')->with('success', 'Data berhasil disimpan');
+        }
+        return redirect()->route('alternatif.index')->with('error', 'Data gagal disimpan');
+    }
+
 }

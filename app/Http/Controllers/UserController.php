@@ -35,7 +35,8 @@ class UserController extends Controller
         ]);
 
         if($update) {
-            return redirect()->route('password.index')->with('success', 'Password berhasil diperbarui');
+            auth()->logout();
+            return redirect()->route('/')->with('success', 'Password berhasil diperbarui. Silakan masuk kembali menggunakan password baru.');
         }
         return redirect()->back()->withErrors('Password gagal diperbarui');
     }

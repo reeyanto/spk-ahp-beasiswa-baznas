@@ -15,6 +15,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
     Route::get('/', fn() => view('admin.dashboard.index'))->name('dashboard.index');
     Route::resource('/periode', PeriodeController::class)->except('show');
     Route::resource('/alternatif', AlternatifController::class)->except('show');
+    Route::get('/alternatif/kriteria/{alternatif?}', [AlternatifController::class, 'kriteria'])->name('alternatif.kriteria');
+    Route::post('/alternatif/kriteria', [AlternatifController::class, 'kriteria_store'])->name('alternatif.kriteria.store');
     Route::resource('/kriteria', KriteriaController::class)->parameters(['kriteria' => 'kriteria'])->except('show');
     Route::get('/password', [UserController::class, 'password'])->name('password.index');
     Route::put('/password', [UserController::class, 'password_update'])->name('password.update');

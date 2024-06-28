@@ -15,7 +15,7 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
-                            <label for="Nama Kriteria" class="form-label">Nama Kriteria</label>
+                            <label for="Nama Kriteria" class="form-label">Nama Kriteria <span class="text text-danger">*</span></label>
                             <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror" placeholder="Nama Kriteria" value="{{ old('nama', $kriteria->nama) }}" />
                             @error('nama')
                                 <span class="text text-danger">{{ $message }}</span>

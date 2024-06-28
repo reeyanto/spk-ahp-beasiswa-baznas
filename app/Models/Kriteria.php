@@ -11,4 +11,8 @@ class Kriteria extends Model
 
     protected $table = 'kriteria';
     protected $fillable = ['nama', 'keterangan'];
+
+    public function alternatif_kriteria() {
+        return $this->hasMany(AlternatifKriteria::class);
+    }
 }

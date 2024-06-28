@@ -28,7 +28,7 @@
                             @foreach ($alternatifs as $alternatif)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $alternatif->periode->tahun . " | " . $alternatif->periode->nama }}</td>
+                                    <td>{{ $alternatif->periode->tahun . " - " . $alternatif->periode->nama }}</td>
                                     <td>{{ $alternatif->nama }}</td>
                                     <td>{{ $alternatif->alamat }}</td>
                                     <td>{{ $alternatif->hp }}</td>
@@ -43,6 +43,10 @@
                                             <button type="submit" class="btn btn-sm btn-danger">
                                                 <i class="align-middle" data-feather="trash"></i> Hapus
                                             </button>
+
+                                            <a href="{{ route('alternatif.kriteria', $alternatif->id) }}" class="btn btn-sm btn-primary">
+                                                <i class="align-middle" data-feather="eye"></i> Kriteria
+                                            </a>
                                         </form>
                                     </td>
                                 </tr>

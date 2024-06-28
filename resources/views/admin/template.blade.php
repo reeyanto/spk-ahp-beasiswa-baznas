@@ -144,7 +144,7 @@
 					<div class="row text-muted">
 						<div class="col-6 text-start">
 							<p class="mb-0">
-								<a class="text-muted" href="{{ route('/') }}">SPK AHP</a>
+								<a class="text-muted" href="{{ route('/') }}">SPK Metode Analytics Hierarchy Process</a>
 							</p>
 						</div>
 						<div class="col-6 text-end">

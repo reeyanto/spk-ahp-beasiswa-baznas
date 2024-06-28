@@ -15,14 +15,14 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
-                            <label for="Nama Periode" class="form-label">Nama Periode</label>
+                            <label for="Nama Periode" class="form-label">Nama Periode <span class="text text-danger">*</span></label>
                             <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror" placeholder="Nama Priode" value="{{ old('nama', $periode->nama) }}" />
                             @error('nama')
                                 <span class="text text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="Tahun" class="form-label">Tahun</label>
+                            <label for="Tahun" class="form-label">Tahun <span class="text text-danger">*</span></label>
                             <select name="tahun" class="form-control @error('tahun') is-invalid @enderror">
                                 <?php for($tahun = 2021; $tahun <= date('Y'); $tahun++): ?>
                                     <option value="{{ $tahun }}" {{ old('tahun', $periode->tahun) == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>
