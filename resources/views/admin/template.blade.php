@@ -37,8 +37,7 @@
 		<nav id="sidebar" class="sidebar js-sidebar">
 			<div class="sidebar-content js-simplebar">
 				<a class="sidebar-brand" href="{{ route('dashboard.index') }}">
-					<img src="{{ asset('img/icons/icon-48x48.png') }}" alt="Logo">
-                    <span class="align-middle ms-3">SPK AHP</span>
+					<img src="{{ asset('img/logo.png') }}" alt="Logo BAZNAS" class="img-fluid bg-light p-3">
                 </a>
 
 				<ul class="sidebar-nav">
@@ -64,6 +63,12 @@
 							<i class="align-middle" data-feather="check-square"></i> <span class="align-middle">Data Kriteria</span>
 						</a>
 					</li>
+
+					<li class="sidebar-item {{ Route::currentRouteName() == 'subkriteria.index' ? 'active' : '' }}">
+						<a class="sidebar-link" href="{{ route('subkriteria.index') }}">
+							<i class="align-middle" data-feather="check"></i> <span class="align-middle">Data Sub Kriteria</span>
+						</a>
+					</li>
 					
 					<li class="sidebar-item {{ Route::currentRouteName() == 'alternatif.index' ? 'active' : '' }}">
 						<a class="sidebar-link" href="{{ route('alternatif.index') }}">
@@ -72,11 +77,11 @@
 					</li>
 							
 					<li class="sidebar-header">
-						Metode AHP
+						Perhitungan AHP
 					</li>
 
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="ui-buttons.html">
+					<li class="sidebar-item {{ Route::currentRouteName() == 'perbandingan-kriteria.index' ? 'active' : '' }}">
+						<a class="sidebar-link" href="{{ route('perbandingan-kriteria.index') }}">
                             <i class="align-middle" data-feather="layers"></i> <span class="align-middle">Perbandingan Kriteria</span>
                         </a>
 					</li>
