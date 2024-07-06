@@ -170,7 +170,11 @@
 				"searching": true,	
 				"columnDefs": [
             		{ "width": "5%", "targets": 0 }, // Kolom pertama	
-				]		
+				],
+				language: {
+					emptyTable: "Tidak ada data",
+					zeroRecords: "Hasil pencarian tidak ditemukan"
+				}
 			});
 		});
 
