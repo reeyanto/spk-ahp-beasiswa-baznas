@@ -21,7 +21,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
     Route::get('/alternatif/kriteria/{alternatif?}', [AlternatifController::class, 'kriteria'])->name('alternatif.kriteria');
     Route::post('/alternatif/kriteria', [AlternatifController::class, 'kriteria_store'])->name('alternatif.kriteria.store');
     Route::resource('/kriteria', KriteriaController::class)->parameters(['kriteria' => 'kriteria'])->except('show');
-    Route::resource('/subkriteria', SubKriteriaController::class)->parameters(['subkriteria' => 'subkriteria']);
+    Route::resource('/subkriteria', SubKriteriaController::class)->parameters(['subkriteria' => 'subkriteria'])->except('show');
 
     /** Perhitungan AHP */
     Route::resource('/perbandingan-kriteria', PerbandinganKriteriaController::class);

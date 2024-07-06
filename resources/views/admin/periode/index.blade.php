@@ -30,7 +30,7 @@
                                     <td>{{ $periode->tahun }}</td>
                                     <td>{{ $periode->keterangan }}</td>
                                     <td>
-                                        <form onsubmit="return confirm('Menghapus data periode juga akan menghapus daftar alternatif yang berelasi pada periode ini. Yakin ingin menghapus data ini?')" action="{{ route('periode.destroy', $periode->id) }}" method="post">
+                                        <form onsubmit="return confirm('Yakin ingin menghapus data ini?')" action="{{ route('periode.destroy', $periode->id) }}" method="post">
                                             <a href="{{ route('periode.edit', $periode->id) }}" class="btn btn-sm btn-warning">
                                                 <i class="align-middle" data-feather="edit"></i> Edit
                                             </a>

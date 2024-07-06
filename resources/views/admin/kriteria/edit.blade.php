@@ -32,6 +32,9 @@
                             <button type="submit" class="btn btn-sm btn-primary">
                                 <i class="align-middle" data-feather="save"></i> Simpan
                             </button>
+                            <button type="reset" class="btn btn-sm btn-warning">
+                                <i class="align-middle" data-feather="slash"></i> Reset
+                            </button>
                         </div>
                     </form>
                 </div>

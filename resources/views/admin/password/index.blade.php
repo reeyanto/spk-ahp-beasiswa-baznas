@@ -36,6 +36,9 @@
                                 <i class="align-middle" data-feather="lock"></i>
                                 Ubah Password
                             </button>
+                            <button type="reset" class="btn btn-sm btn-warning">
+                                <i class="align-middle" data-feather="slash"></i> Reset
+                            </button>
                         </div>
                     </form>
                 </div>
