@@ -18,10 +18,17 @@
                             <label for="Nama Kriteria" class="form-label">Nama Kriteria <span class="text text-danger">*</span></label>
                             <select name="kriteria_id" id="kriteria_id" class="form-control @error('kriteria_id') is-invalid @enderror">
                                 @foreach($kriterias as $kriteria)
-                                    <option value="{{ $kriteria->id }}" {{ ($kriteria->id == $subkriteria->kriteria_id) ? 'selected': ''}}>{{ $kriteria->nama }}</option>
+                                <option value="{{ $kriteria->id }}" {{ ($kriteria->id == $subkriteria->kriteria_id) ? 'selected': ''}}>{{ $kriteria->nama }}</option>
                                 @endforeach
                             </select>
                             @error('kriteria_id')
+                            <span class="text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="kode" class="form-label">Kode Sub Kriteria <span class="text text-danger">*</span></label>
+                            <input type="text" name="kode" id="kode" class="form-control @error('kode') is-invalid @enderror" value="{{ old('kode', $subkriteria->kode) }}">
+                            @error('kode')
                                 <span class="text text-danger">{{ $message }}</span>
                             @enderror
                         </div>
