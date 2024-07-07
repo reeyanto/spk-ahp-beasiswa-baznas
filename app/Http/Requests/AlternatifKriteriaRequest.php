@@ -22,7 +22,14 @@ class AlternatifKriteriaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+            'kriteria_id.*' => 'required'
+        ];
+    }
+
+
+    public function messages() {
+        return [
+            'kriteria_id.*.required' => 'Field ini wajib diisi'
         ];
     }
 }

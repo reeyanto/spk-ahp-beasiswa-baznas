@@ -80,11 +80,7 @@
 						Perhitungan AHP
 					</li>
 
-					<li class="sidebar-item {{ Route::currentRouteName() == 'perbandingan-kriteria.index' ? 'active' : '' }}">
-						<a class="sidebar-link" href="{{ route('perbandingan-kriteria.index') }}">
-                            <i class="align-middle" data-feather="layers"></i> <span class="align-middle">Perbandingan Kriteria</span>
-                        </a>
-					</li>
+					
 
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="ui-forms.html">
