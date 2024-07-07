@@ -23,8 +23,8 @@ class SubKriteriaRequest extends FormRequest
     {
         return [
             'kriteria_id' => 'required',
-            'nilai'       => 'required',
-            'bobot'       => 'required|numeric|min:0|max:9'
+            'nama' => 'required',
+            'keterangan' => 'nullable|string|min:3|max:25'
         ];
     }
 
@@ -32,10 +32,7 @@ class SubKriteriaRequest extends FormRequest
         return [
             'kriteria_id.required'  => 'Pilih nama kriteria',
             'nilai.required'        => 'Field nilai tidak boleh kosong',
-            'bobot.required'        => 'Field bobot tidak boleh kosong',
-            'bobot.numeric'         => 'Field bobot harus berupa angka',
-            'bobot.min'             => 'Field bobot harus berupa angka antara 0 sampai 9',
-            'bobot.max'             => 'Field bobot harus berupa angka antara 0 sampai 9'
+            'nama.required'         => 'Field nama tidak boleh kosong',
         ];
     }
 }

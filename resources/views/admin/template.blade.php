@@ -51,26 +51,26 @@
                         </a>
 					</li>
 
-					<li class="sidebar-item {{ Route::currentRouteName() == 'periode.index' ? 'active' : '' }}">
+					<li class="sidebar-item {{ Route::is('periode*') ? 'active' : '' }}">
 						<a class="sidebar-link" href="{{ route('periode.index') }}">
                             <i class="align-middle" data-feather="calendar"></i> <span class="align-middle">Data Periode</span>
                         </a>
 					</li>
 
 					
-					<li class="sidebar-item {{ Route::currentRouteName() == 'kriteria.index' ? 'active' : '' }}">
+					<li class="sidebar-item {{ Route::is('kriteria*') ? 'active' : '' }}">
 						<a class="sidebar-link" href="{{ route('kriteria.index') }}">
 							<i class="align-middle" data-feather="check-square"></i> <span class="align-middle">Data Kriteria</span>
 						</a>
 					</li>
 
-					<li class="sidebar-item {{ Route::currentRouteName() == 'subkriteria.index' ? 'active' : '' }}">
+					<li class="sidebar-item {{ Route::is('subkriteria*') ? 'active' : '' }}">
 						<a class="sidebar-link" href="{{ route('subkriteria.index') }}">
 							<i class="align-middle" data-feather="check"></i> <span class="align-middle">Data Sub Kriteria</span>
 						</a>
 					</li>
 					
-					<li class="sidebar-item {{ Route::currentRouteName() == 'alternatif.index' ? 'active' : '' }}">
+					<li class="sidebar-item {{ Route::is('alternatif*') ? 'active' : '' }}">
 						<a class="sidebar-link" href="{{ route('alternatif.index') }}">
 							<i class="align-middle" data-feather="users"></i> <span class="align-middle">Data Alternatif</span>
 						</a>

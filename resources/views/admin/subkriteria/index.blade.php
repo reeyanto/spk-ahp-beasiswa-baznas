@@ -18,8 +18,8 @@
                         <thead>
                             <th>No.</th>
                             <th>Nama Kriteria</th>
-                            <th>Nilai</th>
-                            <th>Bobot</th>
+                            <th>Sub Kriteria</th>
+                            <th>Keterangan</th>
                             <th>Opsi</th>
                         </thead>
                         <tbody>
@@ -27,8 +27,8 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $sub->kriteria->nama }}</td>
-                                    <td>{{ $sub->nilai }}</td>
-                                    <td>{{ $sub->bobot }}</td>
+                                    <td>{{ $sub->nama }}</td>
+                                    <td>{{ $sub->keterangan }}</td>
                                     <td>
                                         <form onsubmit="return confirm('Yakin ingin menghapus data ini?')" action="{{ route('subkriteria.destroy', $sub->id) }}" method="post">
                                             <a href="{{ route('subkriteria.edit', $sub->id) }}" class="btn btn-sm btn-warning">

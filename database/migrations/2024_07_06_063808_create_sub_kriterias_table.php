@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('sub_kriteria', function (Blueprint $table) {
             $table->id();
             $table->foreignId('kriteria_id')->references('id')->on('kriteria')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('nilai');
-            $table->integer('bobot');
+            $table->string('nama');
+            $table->string('keterangan')->nullable();
             $table->timestamps();
         });
     }
