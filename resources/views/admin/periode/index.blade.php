@@ -27,7 +27,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $periode->nama }}</td>
-                                    <td>{{ $periode->tahun }}</td>
+                                    <td><span class="badge badge-primary">{{ $periode->tahun }}</span></td>
                                     <td>{{ $periode->keterangan }}</td>
                                     <td>
                                         <form onsubmit="return confirm('Yakin ingin menghapus data ini?')" action="{{ route('periode.destroy', $periode->id) }}" method="post">

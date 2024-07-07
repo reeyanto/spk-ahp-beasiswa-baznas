@@ -28,6 +28,15 @@
     		background-color: #d2f1e8;
 			border-color: #bbebdd;
 		}
+		.badge {
+			padding: 4px 6px;
+			border-radius: 4px;
+		}
+		.badge-primary {
+			color: #fff;
+    		background-color: #3b7ddd;
+			border-color: #bbebdd;
+		}
 	</style>
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>

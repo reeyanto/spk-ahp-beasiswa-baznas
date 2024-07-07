@@ -28,7 +28,7 @@
                             @foreach ($alternatifs as $alternatif)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $alternatif->periode->tahun . " - " . $alternatif->periode->nama }}</td>
+                                    <td><span class="badge badge-primary">{{ $alternatif->periode->tahun}}</span> {{ $alternatif->periode->nama }}</td>
                                     <td>{{ $alternatif->nama }}</td>
                                     <td>{{ $alternatif->alamat }}</td>
                                     <td>{{ $alternatif->hp }}</td>
