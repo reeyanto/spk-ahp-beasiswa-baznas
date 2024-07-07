@@ -18,11 +18,12 @@
 
                         @foreach($kriteria as $k)
                             <div class="mb-3">
-                                <label for="{{ $k->kriteria_nama }}" class="form-label">{{ $k->kriteria_nama }} <span class="text text-danger">*</span></label>
-                                <input type="text" class="form-control @error('kriteria_id.' . $k->kriteria_id) is-invalid @enderror" name="kriteria_id[{{ $k->kriteria_id }}]" placeholder="{{ $k->kriteria_nama }}" value="{{ old('kriteria_id.' . $k->kriteria_id, $k->nilai) }}">
-                                @error('kriteria_id.' . $k->kriteria_id)
-                                    <span class="text text-danger">{{ $message }}</span>
-                                @enderror
+                                <label for="{{ $k->nama_kriteria }}" class="form-label">{{ $k->nama_kriteria }} <span class="text text-danger">*</span></label>
+                                <select name="nilai[]" class="form-control">
+                                    @foreach(explode(',', $k->subkriteria_nama) as $index => $nilai)
+                                        <option value="{{ $ids[$index] }}">{{ $nilai }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         @endforeach
 

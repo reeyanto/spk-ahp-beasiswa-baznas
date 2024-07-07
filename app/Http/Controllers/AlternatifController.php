@@ -9,6 +9,7 @@ use App\Models\AlternatifKriteria;
 use App\Models\Kriteria;
 use App\Models\Periode;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AlternatifController extends Controller
 {
@@ -90,12 +91,20 @@ class AlternatifController extends Controller
     public function kriteria(Alternatif $alternatif) {
         //$alternatifId = $alternatif->id;
 
-        $kriteria = Kriteria::leftJoin('alternatif_kriteria', function($join) use ($alternatif) {
-                $join->on('kriteria.id', '=', 'alternatif_kriteria.kriteria_id')
-                    ->where('alternatif_kriteria.alternatif_id', '=', $alternatif->id);
-            })
-            ->select('kriteria.id as kriteria_id', 'kriteria.nama as kriteria_nama', 'alternatif_kriteria.nilai as nilai')
-            ->get();
+        // $kriteria = Kriteria::leftJoin('alternatif_kriteria', function($join) use ($alternatif) {
+        //         $join->on('kriteria.id', '=', 'alternatif_kriteria.kriteria_id')
+        //             ->where('alternatif_kriteria.alternatif_id', '=', $alternatif->id);
+        //     })
+        //     ->select('kriteria.id as kriteria_id', 'kriteria.nama as kriteria_nama', 'alternatif_kriteria.nilai as nilai')
+        //     ->get();
+
+        $kriteria = collect(DB::select(
+            'select k.nama as nama_kriteria, group_concat(s.id) as subkriteria_id, group_concat(s.nama) as subkriteria_nama
+             from kriteria k
+             left join sub_kriteria s
+             on k.id = s.kriteria_id
+             group by k.id, k.nama'
+        ));
 
         return view('admin.alternatif.kriteria', compact('kriteria'));
     }

@@ -11,7 +11,7 @@ class Kriteria extends Model
     use HasFactory;
 
     protected $table = 'kriteria';
-    protected $fillable = ['nama', 'keterangan'];
+    protected $fillable = ['kode', 'nama', 'keterangan'];
 
     public function alternatif_kriteria() {
         return $this->hasMany(AlternatifKriteria::class);

@@ -22,6 +22,7 @@ class KriteriaRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'kode' => 'required|string|min:1,max:5',
             'nama' => 'required|string|min:2,max:255',
             'keterangan' => 'nullable'
         ];
@@ -29,6 +30,7 @@ class KriteriaRequest extends FormRequest
 
     public function messages() {
         return [
+            'kode.required' => 'Field kode kriteria tidak boleh kosong',
             'nama.required' => 'Field nama kriteria tidak boleh kosong',
             'nama.min' => 'Field nama kriteria minimal 2 karakter',
             'nama.max' => 'Field nama kriteria maksimal 255 karakter'

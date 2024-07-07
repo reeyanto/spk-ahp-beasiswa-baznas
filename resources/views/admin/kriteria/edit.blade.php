@@ -15,6 +15,13 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
+                            <label for="Kode Kriteria" class="form-label">Kode Kriteria <span class="text text-danger">*</span></label>
+                            <input type="text" name="kode" class="form-control @error('kode') is-invalid @enderror" placeholder="Kode Kriteria" value="{{ old('kode', $kriteria->kode) }}" />
+                            @error('kode')
+                                <span class="text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
                             <label for="Nama Kriteria" class="form-label">Nama Kriteria <span class="text text-danger">*</span></label>
                             <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror" placeholder="Nama Kriteria" value="{{ old('nama', $kriteria->nama) }}" />
                             @error('nama')

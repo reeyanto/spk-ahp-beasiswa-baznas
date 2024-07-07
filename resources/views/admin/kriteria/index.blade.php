@@ -25,7 +25,7 @@
                             @foreach ($kriterias as $kriteria)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $kriteria->nama }}</td>
+                                    <td><span class="badge badge-primary">{{ $kriteria->kode }}</span> {{ $kriteria->nama }}</td>
                                     <td>{{ $kriteria->keterangan }}</td>
                                     <td>
                                         <form onsubmit="return confirm('Yakin ingin menghapus data ini?')" action="{{ route('kriteria.destroy', $kriteria->id) }}" method="post">
