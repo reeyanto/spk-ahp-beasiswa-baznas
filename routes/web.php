@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\PerbandinganKriteria;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\KriteriaController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AlternatifController;
 use App\Http\Controllers\SubKriteriaController;
 
@@ -14,7 +14,7 @@ Route::group(['middleware' => 'guest'], function() {
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
-    Route::get('/', fn() => view('admin.dashboard.index'))->name('dashboard.index');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::resource('/periode', PeriodeController::class)->except('show');
     Route::resource('/alternatif', AlternatifController::class)->except('show');
     Route::get('/alternatif/kriteria/{alternatif?}', [AlternatifController::class, 'kriteria'])->name('alternatif.kriteria');
