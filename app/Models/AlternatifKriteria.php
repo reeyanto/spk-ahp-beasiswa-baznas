@@ -11,7 +11,7 @@ class AlternatifKriteria extends Model
 
     protected $table = 'alternatif_kriteria';
 
-    protected $guarded = [];
+    protected $fillable = ['alternatif_id', 'kriteria_id', 'subkriteria_id'];
 
     public function alternatif() {
         return $this->belongsTo(Alternatif::class);

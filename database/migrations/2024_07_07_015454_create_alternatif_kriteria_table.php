@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('alternatif_id')->references('id')->on('alternatif')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('kriteria_id')->references('id')->on('kriteria')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('nilai');
+            $table->foreignId('subkriteria_id')->references('id')->on('sub_kriteria')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

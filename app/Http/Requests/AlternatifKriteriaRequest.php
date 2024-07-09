@@ -22,14 +22,14 @@ class AlternatifKriteriaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'kriteria_id.*' => 'required'
+            'subkriteria_id.*' => 'required'
         ];
     }
 
 
     public function messages() {
         return [
-            'kriteria_id.*.required' => 'Field ini wajib diisi'
+            'subkriteria_id.*.required' => 'Field ini tidak boleh kosong'
         ];
     }
 }

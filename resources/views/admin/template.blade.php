@@ -32,10 +32,15 @@
 			padding: 4px 6px;
 			border-radius: 4px;
 		}
+		.badge-success {
+			color: #117054;
+    		background-color: #d2f1e8;
+			border-color: #bbebdd;
+		}
 		.badge-primary {
 			color: #fff;
     		background-color: #3b7ddd;
-			border-color: #bbebdd;
+			border-color: #117054;
 		}
 	</style>
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -154,7 +159,7 @@
 					<div class="row text-muted">
 						<div class="col-6 text-start">
 							<p class="mb-0">
-								<a class="text-muted" href="{{ route('/') }}">SPK Metode Analytics Hierarchy Process</a>
+								<a class="text-muted" href="{{ route('dashboard.index') }}">SPK Metode Analytics Hierarchy Process</a>
 							</p>
 						</div>
 						<div class="col-6 text-end">

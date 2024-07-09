@@ -89,17 +89,8 @@ class AlternatifController extends Controller
 
 
     public function kriteria(Alternatif $alternatif) {
-        //$alternatifId = $alternatif->id;
-
-        // $kriteria = Kriteria::leftJoin('alternatif_kriteria', function($join) use ($alternatif) {
-        //         $join->on('kriteria.id', '=', 'alternatif_kriteria.kriteria_id')
-        //             ->where('alternatif_kriteria.alternatif_id', '=', $alternatif->id);
-        //     })
-        //     ->select('kriteria.id as kriteria_id', 'kriteria.nama as kriteria_nama', 'alternatif_kriteria.nilai as nilai')
-        //     ->get();
-
         $kriteria = collect(DB::select(
-            'select k.nama as nama_kriteria, group_concat(s.id) as subkriteria_id, group_concat(s.nama) as subkriteria_nama
+            'select k.id, k.nama as nama_kriteria, group_concat(s.id) as subkriteria_id, group_concat(s.nama) as subkriteria_nama
              from kriteria k
              left join sub_kriteria s
              on k.id = s.kriteria_id
@@ -111,17 +102,18 @@ class AlternatifController extends Controller
 
 
     public function kriteria_store(AlternatifKriteriaRequest $request) {
-        $alternatifId = $request->input('alternatif_id');
-        $kriteriaData = $request->input('kriteria_id');
-
-        $alternatifKriteria = null;
-
-        foreach($kriteriaData as $kriteriaId => $nilai) {
-            $alternatifKriteria = AlternatifKriteria::updateOrCreate([
-                    'alternatif_id' => $alternatifId,
-                    'kriteria_id' => $kriteriaId,
-            ],
-            ['nilai' => $nilai]);
+        // Loop melalui setiap kriteria yang dikirimkan dari form
+        foreach ($request->kriteria_id as $kriteriaId) {
+            $subkriteriaId = $request->subkriteria_id[$kriteriaId];
+            
+            // Menggunakan updateOrCreate untuk menyimpan atau update ke database
+            $alternatifKriteria = AlternatifKriteria::updateOrCreate(
+                [
+                    'alternatif_id' => $request->alternatif_id,
+                    'kriteria_id'   => $kriteriaId
+                ],
+                ['subkriteria_id' => $subkriteriaId]
+            );
         }
 
         if($alternatifKriteria != null) {

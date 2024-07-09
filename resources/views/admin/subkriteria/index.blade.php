@@ -27,7 +27,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td><span class="badge badge-primary">{{ $sub->kriteria->kode }}</span> {{ $sub->kriteria->nama }}</td>
-                                    <td><span class="badge badge-primary">{{ $sub->kode }}</span> {{ $sub->nama }}</td>
+                                    <td><span class="badge badge-success">{{ $sub->kode }}</span> {{ $sub->nama }}</td>
                                     <td>{{ $sub->keterangan }}</td>
                                     <td>
                                         <form onsubmit="return confirm('Yakin ingin menghapus data ini?')" action="{{ route('subkriteria.destroy', $sub->id) }}" method="post">
