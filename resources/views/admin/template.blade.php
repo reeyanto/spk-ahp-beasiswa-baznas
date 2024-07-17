@@ -28,6 +28,11 @@
     		background-color: #d2f1e8;
 			border-color: #bbebdd;
 		}
+		.alert-primary {
+			color: #fff;
+    		background-color: #3b7ddd;
+			border-color: #117054;
+		}
 		.badge {
 			padding: 4px 6px;
 			border-radius: 4px;
@@ -51,7 +56,7 @@
 		<nav id="sidebar" class="sidebar js-sidebar">
 			<div class="sidebar-content js-simplebar">
 				<a class="sidebar-brand" href="{{ route('dashboard.index') }}">
-					<img src="{{ asset('img/logo.png') }}" alt="Logo BAZNAS" class="img-fluid bg-light p-3">
+					<img src="{{ asset('img/logo-invert.png') }}" alt="Logo BAZNAS" class="img-fluid">
                 </a>
 
 				<ul class="sidebar-nav">
@@ -95,6 +100,12 @@
 					</li>
 
 					
+
+					<li class="sidebar-item {{ Route::is('perbandingan-kriteria*') ? 'active' : '' }}">
+						<a class="sidebar-link" href="{{ route('perbandingan-kriteria.index') }}">
+                            <i class="align-middle" data-feather="check-square"></i> <span class="align-middle">Perbandingan Kriteria</span>
+                        </a>
+					</li>
 
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="ui-forms.html">
