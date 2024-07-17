@@ -22,8 +22,8 @@ class KriteriaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'kode' => 'required|string|min:1,max:5',
-            'nama' => 'required|string|min:2,max:255',
+            'kode' => 'required|string|min:1|max:5',
+            'nama' => 'required|string|min:2|max:255',
             'keterangan' => 'nullable'
         ];
     }

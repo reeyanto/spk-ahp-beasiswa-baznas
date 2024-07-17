@@ -44,7 +44,7 @@
 				<div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto d-table h-100">
 					<div class="d-table-cell align-middle">
 
-						<div class="text-center mt-4">
+						<div class="text-center mt-2">
 							<img src="{{ asset('img/logo.png') }}" alt="Logo BAZNAS">
 							<p class="lead mt-3">SPK Penentuan Penerima Beasiswa<br/>Menggunakan Metode Analytics Hierarchy Process</p>
 						</div>
@@ -63,14 +63,14 @@
 									<form method="post" action="{{ route('login') }}">
                                         @csrf
 										<div class="mb-3">
-											<label class="form-label">Username</label>
-											<input class="form-control form-control-lg @error('username') is-invalid @enderror" type="text" name="username" placeholder="Masukkan Username" />
+											<label class="form-label"><i class="align-middle" data-feather="user"></i> Username</label>
+											<input class="form-control form-control-lg @error('username') is-invalid @enderror" type="text" name="username" placeholder="Masukkan Username" autocomplete="off" />
                                             @error('username')
                                                 <span class="text text-danger">{{ $message }}</span>
                                             @enderror
 										</div>
 										<div class="mb-3">
-											<label class="form-label">Password</label>
+											<label class="form-label"><i class="align-middle" data-feather="lock"></i> Password</label>
 											<input class="form-control form-control-lg @error('password') is-invalid @enderror" type="password" name="password" placeholder="Password" />
                                             @error('password')
                                                 <span class="text text-danger">{{ $message }}</span>
