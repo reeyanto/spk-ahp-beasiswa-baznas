@@ -25,13 +25,6 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="kode" class="form-label">Kode Sub Kriteria <span class="text text-danger">*</span></label>
-                            <input type="text" name="kode" id="kode" class="form-control @error('kode') is-invalid @enderror" value="{{ old('kode') }}">
-                            @error('kode')
-                                <span class="text text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
                             <label for="nama" class="form-label">Nama Sub Kriteria <span class="text text-danger">*</span></label>
                             <input type="text" name="nama" id="nama" class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}">
                             @error('nama')

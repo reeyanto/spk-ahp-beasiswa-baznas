@@ -20,26 +20,37 @@
                             <th>Nama Kriteria</th>
                             <th>Sub Kriteria</th>
                             <th>Keterangan</th>
-                            <th>Opsi</th>
+                            <th>Aksi</th>
                         </thead>
                         <tbody>
                             @foreach ($subkriteria as $sub)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td><span class="badge badge-primary">{{ $sub->kriteria->kode }}</span> {{ $sub->kriteria->nama }}</td>
-                                    <td><span class="badge badge-success">{{ $sub->kode }}</span> {{ $sub->nama }}</td>
+                                    <td>{{ $sub->nama }}</td>
                                     <td>{{ $sub->keterangan }}</td>
                                     <td>
-                                        <form onsubmit="return confirm('Yakin ingin menghapus data ini?')" action="{{ route('subkriteria.destroy', $sub->id) }}" method="post">
-                                            <a href="{{ route('subkriteria.edit', $sub->id) }}" class="btn btn-sm btn-warning">
-                                                <i class="align-middle" data-feather="edit"></i> Edit
-                                            </a>
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">
-                                                <i class="align-middle" data-feather="trash"></i> Hapus
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Aksi
                                             </button>
-                                        </form>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a href="{{ route('subkriteria.edit', $sub->id) }}" class="dropdown-item">
+                                                        <i class="align-middle" data-feather="edit"></i> Edit
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <form onsubmit="return confirm('Yakin ingin menghapus data ini?')" action="{{ route('subkriteria.destroy', $sub->id) }}" method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="dropdown-item text-danger">
+                                                            <i class="align-middle" data-feather="trash"></i> Hapus
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>       
                                     </td>
                                 </tr>
                             @endforeach

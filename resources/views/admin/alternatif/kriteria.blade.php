@@ -19,13 +19,19 @@
                         @foreach($kriteria as $k)
                             <div class="mb-3">
                                 <label class="form-label">{{ $k->nama_kriteria }} <span class="text text-danger">*</span></label>
-
+                                
                                 <input type="hidden" name="kriteria_id[]" value="{{ $k->id }}">
-
+                                
                                 <select name="subkriteria_id[{{ $k->id }}]" class="form-control @error('subkriteria_id.'. $k->id) is-invalid @enderror">
-                                    <?php $ids = ! is_null($k->subkriteria_id) ? explode(',', $k->subkriteria_id) : ['']; ?>
-                                    @foreach(explode(',', $k->subkriteria_nama) as $index => $nilai)
-                                        <option value="{{ $ids[$index] }}" {{ old('subkriteria_id.', $k->id) == $ids[$index] ? 'selected' : '' }}>{{ $nilai }}</option>
+                                    @php
+                                        $subkriteria_ids    = explode(',', $k->subkriteria_id);
+                                        $subkriteria_namas  = explode(',', $k->subkriteria_nama);
+                                        @endphp
+                                    <option value=""></option>
+                                    @foreach($subkriteria_ids as $index => $subkriteria_id)
+                                        <option value="{{ $subkriteria_id }}" {{ old('subkriteria_id.'. $k->id, $k->subkriteria_id) == $subkriteria_id ? 'selected' : '' }}>
+                                            {{ $subkriteria_namas[$index] }}
+                                        </option>
                                     @endforeach
                                 </select>
                                 @error('subkriteria_id.'. $k->id)

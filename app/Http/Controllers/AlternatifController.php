@@ -97,7 +97,11 @@ class AlternatifController extends Controller
              group by k.id, k.nama'
         ));
 
-        return view('admin.alternatif.kriteria', compact('kriteria'));
+        // ambil data dari tabel alternatif_kriteria utk proses pencocokan data
+        // jika alternatif ini datanya sudah ada, maka tampilkan data2nya ke dalam form (selected)
+        $existingAlternatifKriteria = AlternatifKriteria::where('alternatif_id', $alternatif->id)->get();
+
+        return view('admin.alternatif.kriteria', compact('kriteria', 'existingAlternatifKriteria'));
     }
 
 

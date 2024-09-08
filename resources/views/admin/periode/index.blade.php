@@ -20,7 +20,7 @@
                             <th>Nama Periode</th>
                             <th>Tahun</th>
                             <th>Keterangan</th>
-                            <th>Opsi</th>
+                            <th>Aksi</th>
                         </thead>
                         <tbody>
                             @foreach ($periodes as $periode)
@@ -30,16 +30,27 @@
                                     <td><span class="badge badge-primary">{{ $periode->tahun }}</span></td>
                                     <td>{{ $periode->keterangan }}</td>
                                     <td>
-                                        <form onsubmit="return confirm('Yakin ingin menghapus data ini?')" action="{{ route('periode.destroy', $periode->id) }}" method="post">
-                                            <a href="{{ route('periode.edit', $periode->id) }}" class="btn btn-sm btn-warning">
-                                                <i class="align-middle" data-feather="edit"></i> Edit
-                                            </a>
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">
-                                                <i class="align-middle" data-feather="trash"></i> Hapus
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Aksi
                                             </button>
-                                        </form>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a href="{{ route('periode.edit', $periode->id) }}" class="dropdown-item">
+                                                        <i class="align-middle" data-feather="edit"></i> Edit
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <form onsubmit="return confirm('Yakin ingin menghapus data ini?')" action="{{ route('periode.destroy', $periode->id) }}" method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="dropdown-item text-danger">
+                                                            <i class="align-middle" data-feather="trash"></i> Hapus
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>       
                                     </td>
                                 </tr>
                             @endforeach

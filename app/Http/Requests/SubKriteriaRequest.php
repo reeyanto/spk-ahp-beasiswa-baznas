@@ -23,7 +23,6 @@ class SubKriteriaRequest extends FormRequest
     {
         return [
             'kriteria_id' => 'required|exists:kriteria,id',
-            'kode' => 'required|string|min:1|max:5',
             'nama' => 'required',
             'keterangan' => 'nullable|string|min:3|max:25'
         ];
@@ -33,7 +32,6 @@ class SubKriteriaRequest extends FormRequest
         return [
             'kriteria_id.required'  => 'Pilih nama kriteria',
             'kriteria_id.exists'    => 'Pilih nama kriteria',
-            'kode.required'         => 'Kode sub kriteria tidak boleh kosong',
             'nilai.required'        => 'Field nilai tidak boleh kosong',
             'nama.required'         => 'Field nama tidak boleh kosong',
         ];

@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sub_kriteria', function (Blueprint $table) {
+        Schema::create('perbandingan_kriteria', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('kriteria_id')->references('id')->on('kriteria')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('nama');
-            $table->string('keterangan')->nullable();
+            $table->foreignId('kriteria_id1')->references('id')->on('kriteria')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('kriteria_id2')->references('id')->on('kriteria')->onDelete('cascade')->onUpdate('cascade');
+            $table->decimal('nilai', 4, 3);
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sub_kriteria');
+        Schema::dropIfExists('perbandingan_kriteria');
     }
 };

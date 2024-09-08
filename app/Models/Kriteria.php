@@ -20,4 +20,8 @@ class Kriteria extends Model
     public function subkriteria() {
         return $this->hasMany(SubKriteria::class);
     }
+
+    public function perbandingan_kriteria() {
+        return $this->hasOne(PerbandinganKriteria::class);
+    }
 }
