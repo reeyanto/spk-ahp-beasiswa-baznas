@@ -38,11 +38,13 @@ class PerbandinganKriteriaController extends Controller
 
 
         // Hitung rasio konsistensi
-        $cr = $this->calculateConsistencyRatio($kriteria, $jumlah_baris_kolom, $prioritas_per_baris);
+        $konsistensiRasioData = $this->calculateConsistencyRatio($kriteria, $jumlah_penjumlahan_per_baris, $prioritas_per_baris);
+        $hasil_perhitungan_konsistensi_rasio = $konsistensiRasioData['hasil_perhitungan_konsistensi_rasio'];
+        $detail = $konsistensiRasioData['detail'];
 
         return view('admin.perbandingan-kriteria.index', compact(
             'perbandingan', 'kriteria', 'matrix', 'totals', 'normalized_matrix', 'jumlah_per_baris',
-            'prioritas_per_baris', 'jumlah_baris_kolom', 'jumlah_penjumlahan_per_baris', 'cr',
+            'prioritas_per_baris', 'jumlah_baris_kolom', 'jumlah_penjumlahan_per_baris', 'hasil_perhitungan_konsistensi_rasio', 'detail',
         ));
     }
 
@@ -124,22 +126,43 @@ class PerbandinganKriteriaController extends Controller
     }
 
 
-    private function calculateConsistencyRatio($kriteria, $jumlah_baris_kolom, $prioritas_per_baris)
+    private function calculateConsistencyRatio($kriteria, $jumlah_penjumlahan_per_baris, $prioritas_per_baris)
     {
-        $eigen_values = [];
-        $jumlah_kriteria = count($kriteria);
-        foreach ($kriteria as $baris_kode => $kolom) {
-            $sum = array_sum($jumlah_baris_kolom[$baris_kode] ?? []);
-            $eigen_values[$baris_kode] = $sum / ($prioritas_per_baris[$baris_kode] ?? 1);
+        $hasil_perhitungan_konsistensi_rasio = [];
+        $jumlah_hasil = 0;
+
+        foreach ($kriteria as $item) {
+            $kode = $item->kode;
+            $jumlah = number_format($jumlah_penjumlahan_per_baris[$kode], 3);
+            $prioritas = number_format($prioritas_per_baris[$kode], 3);
+            $hasil = $jumlah + $prioritas;
+
+            $hasil_perhitungan_konsistensi_rasio[] = [
+                'kode' => $kode,
+                'jumlah' => $jumlah,
+                'prioritas' => $prioritas,
+                'hasil' => number_format($hasil, 3)
+            ];
+
+            $jumlah_hasil += $hasil;
         }
-        $lambda_max = array_sum($eigen_values) / $jumlah_kriteria;
 
-        // Hitung rasio konsistensi
-        $ci = ($lambda_max - $jumlah_kriteria) / ($jumlah_kriteria - 1);
-        $ri = [0, 0, 0.52, 0.89, 1.11, 1.25, 1.35, 1.40, 1.45, 1.49]; // Random Index untuk 1-10 kriteria
-        $ri_value = $ri[$jumlah_kriteria - 1] ?? 0;
+        $n_kriteria  = count($kriteria);
+        $lambda_maks = number_format($jumlah_hasil / $n_kriteria, 3);
+        $ci          = number_format(($lambda_maks - $n_kriteria) / ($n_kriteria - 1), 3);
 
-        return $ci / $ri_value;
+        $ri          = [1 => 0.00, 0.00, 0.58, 0.90, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49, 1.51, 1.48, 1.56, 1.57, 1.59];
+        $cr          = number_format($ci / $ri[$n_kriteria], 3);
+
+        $detail      = [
+            'N Kriteria'    => $n_kriteria,
+            'Lambda Maks'   => $lambda_maks,
+            'CI'            => $ci,
+            'CR'            => $cr,
+            'Kesimpulan'    => ($cr <= 0.1) ? 'KONSISTEN' : 'TIDAK KONSISTEN'
+        ];
+
+        return ['hasil_perhitungan_konsistensi_rasio' => $hasil_perhitungan_konsistensi_rasio, 'detail' => $detail];    
     }
 
     /**

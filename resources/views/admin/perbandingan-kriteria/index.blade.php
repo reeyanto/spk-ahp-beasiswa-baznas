@@ -168,7 +168,34 @@
         <div class="col-12 col-lg-12 col-xxl-12 d-flex">
             <div class="card flex-fill">
                 <div class="card-body">
-                     
+                    <table class="table table-sm table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Jumlah Perbaris</th>
+                                <th>Prioritas</th>
+                                <th class="table-primary">Hasil</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($hasil_perhitungan_konsistensi_rasio as $arr)
+                                <tr>
+                                    <td>{{ $arr['kode'] }}</td>
+                                    <td>{{ $arr['jumlah'] }}</td>
+                                    <td>{{ $arr['prioritas'] }}</td>
+                                    <td class="table-primary">{{ $arr['hasil'] }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <div class="bg-success text-white rounded p-4 pb-1">
+                        <h4 class="h4 text-white">Detail: </h4>
+                        <ul>
+                            @foreach($detail as $label => $nilai)
+                                <li>{{ $label }}: {{ $nilai }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
