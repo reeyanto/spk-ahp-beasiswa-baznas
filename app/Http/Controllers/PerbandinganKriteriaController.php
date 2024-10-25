@@ -116,7 +116,7 @@ class PerbandinganKriteriaController extends Controller
             $jumlah_penjumlahan_per_baris[$baris->kode] = 0;
             foreach($kriteria as $kolom_kode => $kolom) {
                 $jumlah_baris_kolom[$baris->kode][$kolom->kode] = number_format($matrix[$baris->kode][$kolom->kode], 3) * number_format($prioritas_per_baris[$kolom->kode], 3);
-                $jumlah_penjumlahan_per_baris[$baris->kode] += number_format($jumlah_baris_kolom[$baris->kode][$kolom->kode], 3);
+                $jumlah_penjumlahan_per_baris[$baris->kode] = number_format($jumlah_penjumlahan_per_baris[$baris->kode], 3) + number_format($jumlah_baris_kolom[$baris->kode][$kolom->kode], 3);
             }
         }
 

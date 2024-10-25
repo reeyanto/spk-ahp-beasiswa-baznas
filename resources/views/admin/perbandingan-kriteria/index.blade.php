@@ -151,7 +151,7 @@
                                     @foreach ($row as $nilai)
                                         <td>{{ is_numeric($nilai) ? number_format($nilai, 3) : $nilai }}</td>
                                     @endforeach
-                                    <td class="table-primary">{{ number_format($jumlah_per_baris[$k1], 3) }}</td>
+                                    <td class="table-primary">{{ number_format($jumlah_penjumlahan_per_baris[$k1], 3) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
