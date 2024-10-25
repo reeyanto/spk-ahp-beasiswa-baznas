@@ -138,24 +138,24 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                @foreach($kriteria as $k)
-                                    <th>{{ $k->kode }}</th>
+                                @foreach ($kriteria as $k)
+                                    <th>{{ $k->kode }}</th> <!-- Kode kolom: K1, K2, dll. -->
                                 @endforeach
-                                <th>Jumlah</th>
+                                <th class="table-primary">Jumlah</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($matrix_penjumlahan as $index => $kolom)
+                            @foreach ($jumlah_baris_kolom as $k1 => $row)
                                 <tr>
-                                    <td>{{ $kriteria[$index]->kode }}</td> <!-- Ganti $baris dengan $kriteria[$index]->kode -->
-                                    @foreach($kolom as $nilai)
-                                        <td>{{ number_format($nilai, 3) }}</td>
+                                    <th>{{ $k1 }}</th> <!-- Baris header K1, K2, dll. -->
+                                    @foreach ($row as $nilai)
+                                        <td>{{ is_numeric($nilai) ? number_format($nilai, 3) : $nilai }}</td>
                                     @endforeach
-                                    <td>{{ number_format($jumlah_penjumlahan_per_baris[$index], 3) }}</td> <!-- Ganti $baris dengan $index -->
+                                    <td class="table-primary">{{ number_format($jumlah_per_baris[$k1], 3) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
-                    </table>
+                    </table>                    
                 </div>
             </div>
         </div>
@@ -168,7 +168,7 @@
         <div class="col-12 col-lg-12 col-xxl-12 d-flex">
             <div class="card flex-fill">
                 <div class="card-body">
-                     {{ number_format($cr, 4) }}
+                     
                 </div>
             </div>
         </div>

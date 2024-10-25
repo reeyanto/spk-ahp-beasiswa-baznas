@@ -32,16 +32,17 @@ class PerbandinganKriteriaController extends Controller
         $prioritas_per_baris = $normalizedData['prioritas_per_baris'];
 
         // Hitung matriks penjumlahan
-        $penjumlahanData = $this->calculatePenjumlahanMatrix($kriteria, $normalized_matrix, $prioritas_per_baris);
-        $matrix_penjumlahan = $penjumlahanData['matrix_penjumlahan'];
+        $penjumlahanData = $this->calculatePenjumlahanMatrix($kriteria, $matrix, $prioritas_per_baris);
+        $jumlah_baris_kolom = $penjumlahanData['jumlah_baris_kolom'];
         $jumlah_penjumlahan_per_baris = $penjumlahanData['jumlah_penjumlahan_per_baris'];
 
+
         // Hitung rasio konsistensi
-        $cr = $this->calculateConsistencyRatio($kriteria, $matrix_penjumlahan, $prioritas_per_baris);
+        $cr = $this->calculateConsistencyRatio($kriteria, $jumlah_baris_kolom, $prioritas_per_baris);
 
         return view('admin.perbandingan-kriteria.index', compact(
             'perbandingan', 'kriteria', 'matrix', 'totals', 'normalized_matrix', 'jumlah_per_baris',
-            'prioritas_per_baris', 'matrix_penjumlahan', 'jumlah_penjumlahan_per_baris', 'cr'
+            'prioritas_per_baris', 'jumlah_baris_kolom', 'jumlah_penjumlahan_per_baris', 'cr',
         ));
     }
 
@@ -107,43 +108,28 @@ class PerbandinganKriteriaController extends Controller
     }
 
 
-    private function calculatePenjumlahanMatrix($kriteria, $normalized_matrix, $prioritas_per_baris)
+    private function calculatePenjumlahanMatrix($kriteria, $matrix, $prioritas_per_baris)
     {
-        $matrix_penjumlahan = [];
-        $jumlah_penjumlahan_per_baris = [];
-
-        foreach ($kriteria as $baris_kode => $kolom) {
-            // Inisialisasi total per baris
-            $total_per_bar = 0;
-            
-            foreach ($kriteria as $kolom_kode => $nilai) {
-                // Ambil nilai normalisasi
-                $nilai_perbandingan = $normalized_matrix[$baris_kode][$kolom_kode] ?? 0;
-
-                // Menggunakan prioritas baris yang sudah dihitung
-                $prioritas = $prioritas_per_baris[$baris_kode] ?? 0;
-
-                // Hitung nilai untuk matriks penjumlahan
-                $matrix_penjumlahan[$baris_kode][$kolom_kode] = $nilai_perbandingan * $prioritas;
-
-                // Akumulasi untuk menghitung total per baris
-                $total_per_bar += $matrix_penjumlahan[$baris_kode][$kolom_kode];
+        $jumlah_baris_kolom = [];
+        
+        foreach($kriteria as $baris_kode => $baris) {
+            $jumlah_penjumlahan_per_baris[$baris->kode] = 0;
+            foreach($kriteria as $kolom_kode => $kolom) {
+                $jumlah_baris_kolom[$baris->kode][$kolom->kode] = $matrix[$baris->kode][$kolom->kode] * $prioritas_per_baris[$kolom->kode];
+                $jumlah_penjumlahan_per_baris[$baris->kode] += $jumlah_baris_kolom[$baris->kode][$kolom->kode];
             }
-
-            // Simpan total per baris
-            $jumlah_penjumlahan_per_baris[$baris_kode] = $total_per_bar;
         }
 
-        return ['matrix_penjumlahan' => $matrix_penjumlahan, 'jumlah_penjumlahan_per_baris' => $jumlah_penjumlahan_per_baris];
+        return ['jumlah_baris_kolom' => $jumlah_baris_kolom, 'jumlah_penjumlahan_per_baris' => $jumlah_penjumlahan_per_baris];
     }
 
 
-    private function calculateConsistencyRatio($kriteria, $matrix_penjumlahan, $prioritas_per_baris)
+    private function calculateConsistencyRatio($kriteria, $jumlah_baris_kolom, $prioritas_per_baris)
     {
         $eigen_values = [];
         $jumlah_kriteria = count($kriteria);
         foreach ($kriteria as $baris_kode => $kolom) {
-            $sum = array_sum($matrix_penjumlahan[$baris_kode] ?? []);
+            $sum = array_sum($jumlah_baris_kolom[$baris_kode] ?? []);
             $eigen_values[$baris_kode] = $sum / ($prioritas_per_baris[$baris_kode] ?? 1);
         }
         $lambda_max = array_sum($eigen_values) / $jumlah_kriteria;
@@ -152,6 +138,7 @@ class PerbandinganKriteriaController extends Controller
         $ci = ($lambda_max - $jumlah_kriteria) / ($jumlah_kriteria - 1);
         $ri = [0, 0, 0.52, 0.89, 1.11, 1.25, 1.35, 1.40, 1.45, 1.49]; // Random Index untuk 1-10 kriteria
         $ri_value = $ri[$jumlah_kriteria - 1] ?? 0;
+        
         return $ci / $ri_value;
     }
 
