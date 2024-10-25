@@ -13,46 +13,55 @@ class PerbandinganKriteriaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index2()
+    public function index()
     {
-        $perbandingan_kriteria = DB::select("
-            SELECT a.id AS id1, a.kode AS kode1, a.nama AS nama1, b.id AS id2, b.kode AS kode2, b.nama AS nama2, pk.nilai
-            FROM kriteria AS a
-            JOIN kriteria AS b
-            ON a.id < b.id
-            LEFT JOIN perbandingan_kriteria AS pk
-            ON a.id = pk.kriteria_id1 AND b.id = pk.kriteria_id2
-        ");
+        $perbandingan = $this->getPerbandinganKriteria();
 
-        $kriteria = Kriteria::all();
-
-        return view('admin.perbandingan-kriteria.index', compact('perbandingan_kriteria', 'kriteria'));
-    }
-
-    public function index() {
-        // TABEL PERBANDINGAN KRITERIA
-        // --------------
-        // Ambil data untuk perbandingan
-        $perbandingan = DB::select("
-            SELECT a.id AS id1, a.kode AS kode1, a.nama AS nama1, b.id AS id2, b.kode AS kode2, b.nama AS nama2, pk.nilai
-            FROM kriteria AS a
-            JOIN kriteria AS b
-            ON a.id < b.id
-            LEFT JOIN perbandingan_kriteria AS pk
-            ON a.id = pk.kriteria_id1 AND b.id = pk.kriteria_id2
-        ");
-
-
-        // TABEL MATRIKS PERBANDINGAN KRITERIA
-        // -----------------
         $kriteria = DB::table('kriteria')->get();
         $perbandingan_kriteria = DB::table('perbandingan_kriteria')->get();
 
-        // Buat array kosong untuk menampung matriks
+        // Generate matriks perbandingan
+        $matrixData = $this->generateMatrixData($kriteria, $perbandingan_kriteria);
+        $matrix = $matrixData['matrix'];
+        $totals = $matrixData['totals'];
+
+        // Normalisasi matriks
+        $normalizedData = $this->normalizeMatrix($kriteria, $matrix, $totals);
+        $normalized_matrix = $normalizedData['normalized_matrix'];
+        $jumlah_per_baris = $normalizedData['jumlah_per_baris'];
+        $prioritas_per_baris = $normalizedData['prioritas_per_baris'];
+
+        // Hitung matriks penjumlahan
+        $penjumlahanData = $this->calculatePenjumlahanMatrix($kriteria, $normalized_matrix, $prioritas_per_baris);
+        $matrix_penjumlahan = $penjumlahanData['matrix_penjumlahan'];
+        $jumlah_penjumlahan_per_baris = $penjumlahanData['jumlah_penjumlahan_per_baris'];
+
+        // Hitung rasio konsistensi
+        $cr = $this->calculateConsistencyRatio($kriteria, $matrix_penjumlahan, $prioritas_per_baris);
+
+        return view('admin.perbandingan-kriteria.index', compact(
+            'perbandingan', 'kriteria', 'matrix', 'totals', 'normalized_matrix', 'jumlah_per_baris',
+            'prioritas_per_baris', 'matrix_penjumlahan', 'jumlah_penjumlahan_per_baris', 'cr'
+        ));
+    }
+
+    private function getPerbandinganKriteria()
+    {
+        return DB::select("
+            SELECT a.id AS id1, a.kode AS kode1, a.nama AS nama1, b.id AS id2, b.kode AS kode2, b.nama AS nama2, pk.nilai
+            FROM kriteria AS a
+            JOIN kriteria AS b
+            ON a.id < b.id
+            LEFT JOIN perbandingan_kriteria AS pk
+            ON a.id = pk.kriteria_id1 AND b.id = pk.kriteria_id2
+        ");
+    }
+
+    private function generateMatrixData($kriteria, $perbandingan_kriteria)
+    {
         $matrix = [];
         $totals = [];
 
-        // Isi matriks dengan nilai perbandingan kriteria dan hitung total kolom
         foreach ($kriteria as $k1) {
             foreach ($kriteria as $k2) {
                 $nilai = $perbandingan_kriteria->first(function ($item) use ($k1, $k2) {
@@ -70,18 +79,20 @@ class PerbandinganKriteriaController extends Controller
             }
         }
 
-        // TABEL MATRIKS NILAI KRITERIA (NORMALISASI)
-        // Inisialisasi array untuk menyimpan matriks normalisasi, jumlah per baris, dan prioritas
+        return ['matrix' => $matrix, 'totals' => $totals];
+    }
+
+    private function normalizeMatrix($kriteria, $matrix, $totals)
+    {
         $normalized_matrix = [];
         $jumlah_per_baris = [];
         $prioritas_per_baris = [];
 
-        // Normalisasi matriks dengan membagi setiap elemen dengan jumlah kolomnya
         foreach ($kriteria as $k1) {
             $jumlah = 0;
             foreach ($kriteria as $k2) {
                 if (is_numeric($matrix[$k1->kode][$k2->kode])) {
-                    $nilai_normalisasi = $matrix[$k1->kode][$k2->kode] / $totals[$k2->kode];
+                    $nilai_normalisasi = $totals[$k2->kode] > 0 ? $matrix[$k1->kode][$k2->kode] / $totals[$k2->kode] : 0; // Pastikan tidak membagi dengan nol
                     $normalized_matrix[$k1->kode][$k2->kode] = $nilai_normalisasi;
                     $jumlah += $nilai_normalisasi;
                 } else {
@@ -92,24 +103,43 @@ class PerbandinganKriteriaController extends Controller
             $prioritas_per_baris[$k1->kode] = $jumlah / count($kriteria);
         }
 
-        // TABEL MATRIKS PENJUMLAHAN SETIAP BARIS
+        return ['normalized_matrix' => $normalized_matrix, 'jumlah_per_baris' => $jumlah_per_baris, 'prioritas_per_baris' => $prioritas_per_baris];
+    }
+
+
+    private function calculatePenjumlahanMatrix($kriteria, $normalized_matrix, $prioritas_per_baris)
+    {
         $matrix_penjumlahan = [];
-        foreach ($kriteria as $baris_kode => $kolom) {
-            foreach ($kriteria as $kolom_kode => $nilai) {
-                $nilai_perbandingan = $matrix[$baris_kode][$kolom_kode] ?? 0;
-                $prioritas = $prioritas_per_baris[$baris_kode] ?? 0;
-                $matrix_penjumlahan[$baris_kode][$kolom_kode] = $nilai_perbandingan * $prioritas;
-            }
-        }
-
-
-        // Hitung jumlah per baris untuk matriks penjumlahan
         $jumlah_penjumlahan_per_baris = [];
-        foreach ($matrix_penjumlahan as $baris_kode => $kolom) {
-            $jumlah_penjumlahan_per_baris[$baris_kode] = array_sum($kolom);
+
+        foreach ($kriteria as $baris_kode => $kolom) {
+            // Inisialisasi total per baris
+            $total_per_bar = 0;
+            
+            foreach ($kriteria as $kolom_kode => $nilai) {
+                // Ambil nilai normalisasi
+                $nilai_perbandingan = $normalized_matrix[$baris_kode][$kolom_kode] ?? 0;
+
+                // Menggunakan prioritas baris yang sudah dihitung
+                $prioritas = $prioritas_per_baris[$baris_kode] ?? 0;
+
+                // Hitung nilai untuk matriks penjumlahan
+                $matrix_penjumlahan[$baris_kode][$kolom_kode] = $nilai_perbandingan * $prioritas;
+
+                // Akumulasi untuk menghitung total per baris
+                $total_per_bar += $matrix_penjumlahan[$baris_kode][$kolom_kode];
+            }
+
+            // Simpan total per baris
+            $jumlah_penjumlahan_per_baris[$baris_kode] = $total_per_bar;
         }
 
-        // Hitung rasio konsistensi
+        return ['matrix_penjumlahan' => $matrix_penjumlahan, 'jumlah_penjumlahan_per_baris' => $jumlah_penjumlahan_per_baris];
+    }
+
+
+    private function calculateConsistencyRatio($kriteria, $matrix_penjumlahan, $prioritas_per_baris)
+    {
         $eigen_values = [];
         $jumlah_kriteria = count($kriteria);
         foreach ($kriteria as $baris_kode => $kolom) {
@@ -122,13 +152,7 @@ class PerbandinganKriteriaController extends Controller
         $ci = ($lambda_max - $jumlah_kriteria) / ($jumlah_kriteria - 1);
         $ri = [0, 0, 0.52, 0.89, 1.11, 1.25, 1.35, 1.40, 1.45, 1.49]; // Random Index untuk 1-10 kriteria
         $ri_value = $ri[$jumlah_kriteria - 1] ?? 0;
-        $cr = $ci / $ri_value;
-
-        // Kembalikan ke view
-        return view('admin.perbandingan-kriteria.index', compact(
-            'perbandingan', 'kriteria', 'matrix', 'totals', 'normalized_matrix', 'jumlah_per_baris',
-            'prioritas_per_baris', 'matrix_penjumlahan', 'jumlah_penjumlahan_per_baris', 'cr'
-        ));
+        return $ci / $ri_value;
     }
 
     /**
@@ -142,38 +166,29 @@ class PerbandinganKriteriaController extends Controller
 
         $data = [];
         $i = 0;
-        foreach($reqNilai as $nilai) {
-            // simpan nilai perbandingan kriteria A dengan B
+        foreach ($reqNilai as $nilai) {
+            // Simpan nilai perbandingan kriteria A dengan B
             PerbandinganKriteria::updateOrCreate([
                 'kriteria_id1' => $reqId1s[$i],
                 'kriteria_id2' => $reqId2s[$i],
             ], ['nilai' => (double) $nilai]);
 
-            // simpan nilai perbandingan kriteria B dengan A (Kebalikannya)
+            // Simpan nilai perbandingan kriteria B dengan A (Kebalikannya)
             $kebalikan = ['0.500' => '2', '0.333' => '3', '0.250' => '4', '0.200' => '5', '0.166' => '6', '0.142' => '7', '0.125' => '8', '0.111' => '9'];
             PerbandinganKriteria::updateOrCreate([
                 'kriteria_id1' => $reqId2s[$i],
                 'kriteria_id2' => $reqId1s[$i],
             ], ['nilai' => array_key_exists($nilai, $kebalikan) ? (double) $kebalikan[$nilai] : 1 / (double) $nilai]);
 
-            // simpan nilai perbandingan kriteria A dengan A (Dengan dirinya sendiri)
-            // 1 - 2
-            // 1 - 3
-            // 2 - 3
+            // Simpan nilai perbandingan kriteria A dengan A (Dengan dirinya sendiri)
             PerbandinganKriteria::updateOrCreate([
                 'kriteria_id1' => $reqId1s[$i],
                 'kriteria_id2' => $reqId1s[$i],
-            ], ['nilai' => (double) 1]);
-
-            // simpan nilai perbandingan kriteria B dengan B (Dengan dirinya sendiri)
-            PerbandinganKriteria::updateOrCreate([
-                'kriteria_id1' => $reqId2s[$i],
-                'kriteria_id2' => $reqId2s[$i],
-            ], ['nilai' => (double) 1]);
+            ], ['nilai' => 1]);
 
             $i++;
         }
 
-        return redirect()->back()->with('success', 'Data berhasil disimpan');
+        return redirect()->route('perbandingan-kriteria.index')->with('success', 'Data berhasil disimpan.');
     }
 }

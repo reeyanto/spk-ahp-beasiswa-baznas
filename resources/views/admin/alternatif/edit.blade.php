@@ -27,14 +27,14 @@
                         </div>
                         <div class="mb-3">
                             <label for="Nama Lengkap" class="form-label">Nama Lengkap <span class="text text-danger">*</span></label>
-                            <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror" placeholder="Nama Lengkap" value="{{ old('nama', $alternatif->nama) }}" />
+                            <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror" placeholder="Masukkan Nama Lengkap" value="{{ old('nama', $alternatif->nama) }}" />
                             @error('nama')
                                 <span class="text text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="mb-3">
                             <label for="Alamat" class="form-label">Alamat <span class="text text-danger">*</span></label>
-                            <textarea name="alamat" cols="30" rows="4" class="form-control @error('alamat') is-invalid @enderror" placeholder="Alamat" style="resize:none;">{{ old('alamat', $alternatif->alamat) }}</textarea>
+                            <textarea name="alamat" cols="30" rows="4" class="form-control @error('alamat') is-invalid @enderror" placeholder="Masukkan Alamat" style="resize:none;">{{ old('alamat', $alternatif->alamat) }}</textarea>
                             @error('alamat')
                                 <span class="text text-danger">{{ $message }}</span>
                             @enderror
@@ -51,7 +51,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="HP" class="form-label">HP <span class="text text-danger">*</span></label>
-                            <input type="text" name="hp" class="form-control @error('hp') is-invalid @enderror" placeholder="Nomor HP" value="{{ old('hp', $alternatif->hp) }}" />
+                            <input type="text" name="hp" class="form-control @error('hp') is-invalid @enderror" placeholder="Masukkan Nomor HP" value="{{ old('hp', $alternatif->hp) }}" />
                             @error('hp')
                                 <span class="text text-danger">{{ $message }}</span>
                             @enderror

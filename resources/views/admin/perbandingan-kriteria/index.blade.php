@@ -128,6 +128,7 @@
         </div>
     </div>
 
+    
     <h2 class="h3 mb-3">Matriks Penjumlahan Setiap Baris</h2>
     <div class="row">
         <div class="col-12 col-lg-12 col-xxl-12 d-flex">
@@ -137,37 +138,29 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                @foreach ($kriteria as $k)
+                                @foreach($kriteria as $k)
                                     <th>{{ $k->kode }}</th>
                                 @endforeach
                                 <th>Jumlah</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($matrix_penjumlahan as $baris_kode => $kolom)
+                            @foreach($matrix_penjumlahan as $index => $kolom)
                                 <tr>
-                                    <th>{{ $baris_kode }}</th>
-                                    @foreach ($kolom as $nilai)
-                                        <td>{{ number_format($nilai, 4) }}</td>
+                                    <td>{{ $kriteria[$index]->kode }}</td> <!-- Ganti $baris dengan $kriteria[$index]->kode -->
+                                    @foreach($kolom as $nilai)
+                                        <td>{{ number_format($nilai, 3) }}</td>
                                     @endforeach
-                                    <td>{{ number_format($jumlah_penjumlahan_per_baris[$baris_kode] ?? 0, 4) }}</td>
-                                </tr>
-                            @endforeach --}}
-
-                            @foreach ($matrix as $k1 => $row)
-                                <tr>
-                                    <th>{{ $k1 }}</th>
-                                    @foreach ($row as $k2 => $nilai)
-                                        <td>{{ 'a' }}</td>
-                                    @endforeach
+                                    <td>{{ number_format($jumlah_penjumlahan_per_baris[$index], 3) }}</td> <!-- Ganti $baris dengan $index -->
                                 </tr>
                             @endforeach
                         </tbody>
-                    </table>  
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+
 
 
     <h2 class="h3 mb-3">Rasio Konsistensi</h2>

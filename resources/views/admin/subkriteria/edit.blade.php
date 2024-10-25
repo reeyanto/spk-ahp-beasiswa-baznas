@@ -26,15 +26,15 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="nama" class="form-label">Nama Sub Kriteria <span class="text text-danger">*</span></label>
-                            <input type="text" name="nama" id="nama" class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama', $subkriteria->nama) }}">
+                            <label for="nama" class="form-label">Sub Kriteria <span class="text text-danger">*</span></label>
+                            <input type="text" name="nama" id="nama" class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama', $subkriteria->nama) }}" placeholder="Masukkan Sub Kriteria">
                             @error('nama')
                                 <span class="text text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="mb-3">
                             <label for="keterangan" class="form-label">Keterangan</label>
-                            <textarea name="keterangan" class="form-control @error('keterangan') is-invalid @enderror" rows="3" placeholder="Keterangan" style="resize:none">{{ old('keterangan', $subkriteria->keterangan) }}</textarea>
+                            <textarea name="keterangan" class="form-control @error('keterangan') is-invalid @enderror" rows="3" placeholder="Tambahkan Keterangan" style="resize:none">{{ old('keterangan', $subkriteria->keterangan) }}</textarea>
                             @error('keterangan')
                                 <span class="text text-danger">{{ $message }}</span>
                             @enderror
