@@ -115,8 +115,8 @@ class PerbandinganKriteriaController extends Controller
         foreach($kriteria as $baris_kode => $baris) {
             $jumlah_penjumlahan_per_baris[$baris->kode] = 0;
             foreach($kriteria as $kolom_kode => $kolom) {
-                $jumlah_baris_kolom[$baris->kode][$kolom->kode] = $matrix[$baris->kode][$kolom->kode] * $prioritas_per_baris[$kolom->kode];
-                $jumlah_penjumlahan_per_baris[$baris->kode] += $jumlah_baris_kolom[$baris->kode][$kolom->kode];
+                $jumlah_baris_kolom[$baris->kode][$kolom->kode] = number_format($matrix[$baris->kode][$kolom->kode], 3) * number_format($prioritas_per_baris[$kolom->kode], 3);
+                $jumlah_penjumlahan_per_baris[$baris->kode] += number_format($jumlah_baris_kolom[$baris->kode][$kolom->kode], 3);
             }
         }
 
@@ -138,7 +138,7 @@ class PerbandinganKriteriaController extends Controller
         $ci = ($lambda_max - $jumlah_kriteria) / ($jumlah_kriteria - 1);
         $ri = [0, 0, 0.52, 0.89, 1.11, 1.25, 1.35, 1.40, 1.45, 1.49]; // Random Index untuk 1-10 kriteria
         $ri_value = $ri[$jumlah_kriteria - 1] ?? 0;
-        
+
         return $ci / $ri_value;
     }
 
