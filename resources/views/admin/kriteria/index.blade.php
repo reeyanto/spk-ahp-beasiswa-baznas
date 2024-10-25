@@ -10,7 +10,7 @@
                         <i class="align-middle" data-feather="plus"></i> Tambah Data
                     </a>
                 </div>
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     @if (session('success'))
                         <p class="alert alert-success" id="alert">{{ session('success') }}</p>
                     @endif

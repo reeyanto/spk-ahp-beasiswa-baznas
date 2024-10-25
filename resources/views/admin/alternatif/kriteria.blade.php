@@ -13,9 +13,9 @@
                 <div class="card-body">
                     <form action="{{ route('alternatif.kriteria.store') }}" method="post">
                         @csrf
-
+                    
                         <input type="hidden" name="alternatif_id" value="{{ request()->segment(4) }}">
-
+                    
                         @foreach($kriteria as $k)
                             <div class="mb-3">
                                 <label class="form-label">{{ $k->nama_kriteria }} <span class="text text-danger">*</span></label>
@@ -24,12 +24,16 @@
                                 
                                 <select name="subkriteria_id[{{ $k->id }}]" class="form-control @error('subkriteria_id.'. $k->id) is-invalid @enderror">
                                     @php
-                                        $subkriteria_ids    = explode(',', $k->subkriteria_id);
-                                        $subkriteria_namas  = explode(',', $k->subkriteria_nama);
-                                        @endphp
+                                        $subkriteria_ids = explode(',', $k->subkriteria_id);
+                                        $subkriteria_namas = explode(',', $k->subkriteria_nama);
+                    
+                                        // Cari data subkriteria_id yang sudah ada di database untuk kriteria ini
+                                        $selectedSubkriteria = $existingAlternatifKriteria->firstWhere('kriteria_id', $k->id)->subkriteria_id ?? null;
+                                    @endphp
                                     <option value=""></option>
                                     @foreach($subkriteria_ids as $index => $subkriteria_id)
-                                        <option value="{{ $subkriteria_id }}" {{ old('subkriteria_id.'. $k->id, $k->subkriteria_id) == $subkriteria_id ? 'selected' : '' }}>
+                                        <option value="{{ $subkriteria_id }}" 
+                                            {{ old('subkriteria_id.'. $k->id, $selectedSubkriteria) == $subkriteria_id ? 'selected' : '' }}>
                                             {{ $subkriteria_namas[$index] }}
                                         </option>
                                     @endforeach
@@ -39,7 +43,7 @@
                                 @enderror
                             </div>
                         @endforeach
-
+                    
                         <div class="mb-3">
                             <button type="submit" class="btn btn-primary btn-sm">
                                 <i class="align-middle" data-feather="save"></i> Simpan
@@ -49,6 +53,7 @@
                             </button>
                         </div>
                     </form>
+                    
                 </div>
             </div>
         </div>
