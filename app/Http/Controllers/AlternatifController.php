@@ -19,7 +19,8 @@ class AlternatifController extends Controller
     public function index()
     {
         $alternatifs = Alternatif::all();
-        return view('admin.alternatif.index', compact('alternatifs'));
+        $kriteriaCount = Kriteria::count();
+        return view('admin.alternatif.index', compact('alternatifs', 'kriteriaCount'));
     }
 
     /**

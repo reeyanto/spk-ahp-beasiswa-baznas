@@ -35,7 +35,7 @@
                                     <td>{{ $alternatif->hp }}</td>
                                     <td>{{ $alternatif->jk == 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
                                     <td>
-                                        @if($alternatif->alternatifKriteria->count() > 0)
+                                        @if($alternatif->alternatifKriteria->count() == $kriteriaCount)
                                             <span class="badge bg-success">Lengkap</span>
                                         @else
                                             <span class="badge bg-danger">Tidak Lengkap</span>
