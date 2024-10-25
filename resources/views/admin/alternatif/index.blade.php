@@ -22,6 +22,7 @@
                             <th>Alamat</th>
                             <th>HP</th>
                             <th>Jenis Kelamin</th>
+                            <th>Kriteria</th>
                             <th>Aksi</th>
                         </thead>
                         <tbody>
@@ -33,6 +34,13 @@
                                     <td>{{ $alternatif->alamat }}</td>
                                     <td>{{ $alternatif->hp }}</td>
                                     <td>{{ $alternatif->jk == 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
+                                    <td>
+                                        @if($alternatif->alternatifKriteria->count() > 0)
+                                            <span class="badge bg-success">Lengkap</span>
+                                        @else
+                                            <span class="badge bg-danger">Tidak Lengkap</span>
+                                        @endif
+                                    </td>
                                     <td>
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
