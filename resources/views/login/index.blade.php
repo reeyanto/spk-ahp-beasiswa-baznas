@@ -64,7 +64,7 @@
                                         @csrf
 										<div class="mb-3">
 											<label class="form-label"><i class="align-middle" data-feather="user"></i> Username</label>
-											<input class="form-control form-control-lg @error('username') is-invalid @enderror" type="text" name="username" placeholder="Masukkan Username" autocomplete="off" />
+											<input class="form-control form-control-lg @error('username') is-invalid @enderror" value="{{ old('username') }}" type="text" name="username" placeholder="Masukkan Username" autocomplete="off" />
                                             @error('username')
                                                 <span class="text text-danger">{{ $message }}</span>
                                             @enderror

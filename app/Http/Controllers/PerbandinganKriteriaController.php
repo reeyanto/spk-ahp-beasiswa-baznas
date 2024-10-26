@@ -174,7 +174,6 @@ class PerbandinganKriteriaController extends Controller
         $reqId2s = $request->input('id2');
         $reqNilai = $request->input('nilai');
 
-        $data = [];
         $i = 0;
         foreach ($reqNilai as $nilai) {
             // Simpan nilai perbandingan kriteria A dengan B
@@ -198,6 +197,14 @@ class PerbandinganKriteriaController extends Controller
 
             $i++;
         }
+
+        // Simpan nilai perbandingan kriteria B dengan B (Dengan dirinya sendiri)
+        // Hal ini dilakukan karena kriteria A itu hanya sampai N kriteria - 1
+        $kriteria = Kriteria::latest()->first();
+        PerbandinganKriteria::updateOrCreate([
+            'kriteria_id1' => $kriteria->id,
+            'kriteria_id2' => $kriteria->id,
+        ], ['nilai' => 1]);
 
         return redirect()->route('perbandingan-kriteria.index')->with('success', 'Data berhasil disimpan.');
     }
