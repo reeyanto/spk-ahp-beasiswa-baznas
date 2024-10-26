@@ -71,7 +71,7 @@ class PerbandinganKriteriaController extends Controller
                     return $item->kriteria_id1 == $k1->id && $item->kriteria_id2 == $k2->id;
                 });
 
-                $matrix[$k1->kode][$k2->kode] = $nilai->nilai ?? '-';
+                $matrix[$k1->kode][$k2->kode] = $nilai->nilai ?? 0;
 
                 if (is_numeric($matrix[$k1->kode][$k2->kode])) {
                     if (!isset($totals[$k2->kode])) {
@@ -99,7 +99,7 @@ class PerbandinganKriteriaController extends Controller
                     $normalized_matrix[$k1->kode][$k2->kode] = $nilai_normalisasi;
                     $jumlah += $nilai_normalisasi;
                 } else {
-                    $normalized_matrix[$k1->kode][$k2->kode] = '-';
+                    $normalized_matrix[$k1->kode][$k2->kode] = 0;
                 }
             }
             $jumlah_per_baris[$k1->kode] = $jumlah;
