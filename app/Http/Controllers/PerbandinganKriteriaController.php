@@ -176,6 +176,12 @@ class PerbandinganKriteriaController extends Controller
 
         $i = 0;
         foreach ($reqNilai as $nilai) {
+            // Simpan nilai perbandingan kriteria A dengan A (Dengan dirinya sendiri)
+            PerbandinganKriteria::updateOrCreate([
+                'kriteria_id1' => $reqId1s[$i],
+                'kriteria_id2' => $reqId1s[$i],
+            ], ['nilai' => 1]);
+            
             // Simpan nilai perbandingan kriteria A dengan B
             PerbandinganKriteria::updateOrCreate([
                 'kriteria_id1' => $reqId1s[$i],
@@ -188,12 +194,6 @@ class PerbandinganKriteriaController extends Controller
                 'kriteria_id1' => $reqId2s[$i],
                 'kriteria_id2' => $reqId1s[$i],
             ], ['nilai' => array_key_exists($nilai, $kebalikan) ? (double) $kebalikan[$nilai] : 1 / (double) $nilai]);
-
-            // Simpan nilai perbandingan kriteria A dengan A (Dengan dirinya sendiri)
-            PerbandinganKriteria::updateOrCreate([
-                'kriteria_id1' => $reqId1s[$i],
-                'kriteria_id2' => $reqId1s[$i],
-            ], ['nilai' => 1]);
 
             $i++;
         }
