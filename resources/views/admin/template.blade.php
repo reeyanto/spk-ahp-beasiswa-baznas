@@ -107,9 +107,9 @@
                         </a>
 					</li>
 
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="ui-forms.html">
-                            <i class="align-middle" data-feather="user-plus"></i> <span class="align-middle">Perbandingan Alternatif</span>
+					<li class="sidebar-item {{ Route::is('perbandingan-sub-kriteria*') ? 'active' : '' }}">
+						<a class="sidebar-link" href="{{ route('perbandingan-sub-kriteria.index') }}">
+                            <i class="align-middle" data-feather="user-plus"></i> <span class="align-middle">Perbd. Sub Kriteria</span>
                         </a>
 					</li>
 
